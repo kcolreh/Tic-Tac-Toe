@@ -3,20 +3,31 @@ const gameDisplay = (() => {
     const gameGrid = (() => {
         const grid = document.createElement('div');
         grid.classList.add('main-grid');
-        for (let i = 0; i < 9; i += 1) {
+        grid.id = 'main-grid';
+        for (let index = 0; index < 9; index += 1) {
             const gridElements = document.createElement('div');
             gridElements.classList.add('inner-grid');
-            gridElements.id = `gridElement-${i}`;
+            gridElements.id = `gridElement-${index}`;
             grid.appendChild(gridElements);
         } return grid;
     })(); const gridContainer = document.getElementById('grid-container'); gridContainer.appendChild(gameGrid);
     return gameBoard;
 })();
-console.log(gameDisplay);
-const playerFactory = (player1, player2) => {
-    const sayHello = () => console.log('hello');
-    return { player1, player2, sayHello };
+
+const playerSelection = (() => {
+    const gameGrid = document.getElementById('main-grid');
+    gameGrid.addEventListener('click', (event) => {
+        event.target.classList.add('user-selection');
+    });
+})();
+
+const playerFactory = (name) => {
+    const player1Displayed = () => document.getElementById('player-1').innerHTML = name;
+    const player2Displayed = () => document.getElementById('player-2').innerHTML = name;
+    return { player1Displayed, player2Displayed };
 };
 
-const humanPlayer = playerFactory('1', '2');
-humanPlayer.sayHello();
+const player1 = playerFactory('john');
+const player2 = playerFactory('Adams');
+player1.player1Displayed();
+player2.player2Displayed();

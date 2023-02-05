@@ -9,3 +9,16 @@
 .inner-grid {
   border: 1px solid black;
 }
+
+.user-selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.user-selection::after {
+  font-size: 3rem;
+  content: "x";
+  position: absolute;
+}
