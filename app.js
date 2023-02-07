@@ -50,7 +50,9 @@ const winConditions = (() => {
 
 const gameFlow = () => {
     winConditions.forEach((condition) => {
-        console.log(gameBoard === condition);
+        if ((gameBoard.toString()) === (condition.toString())) {
+            console.log('true');
+        }
     });
 };
 
@@ -71,13 +73,12 @@ const playerSelection = (() => {
 const gameBoardUpdate = (() => {
     const gridEvent = document.getElementById('gameboard');
     gridEvent.addEventListener('click', (event) => {
-        gameFlow();
         const cellDataId = event.target.dataset.id;
         const boardElementId = event.target.id;
         if (!event.target.classList.contains('user-o')) {
             gameBoard[+cellDataId][+boardElementId] = 1;
         } else if (!event.target.classList.contains('user-x')) {
-            console.log(gameBoard[+cellDataId][+boardElementId]);
-        }
+            gameBoard[+cellDataId][+boardElementId] = 0;
+        } gameFlow();
     });
 })();
