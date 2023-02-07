@@ -7,7 +7,7 @@ const gameBoard = (() => {
     return gameBoard3x3grid;
 })();
 
-const winConditions = () => {
+const winConditions = (() => {
     const conditions = [[
         [1, 1, 1],
         [0, 0, 0],
@@ -45,22 +45,39 @@ const winConditions = () => {
         [1, 0, 0],
     ],
     ];
+    return conditions;
+})();
+
+const gameFlow = () => {
+    winConditions.forEach((condition) => {
+        console.log(gameBoard === condition);
+    });
 };
 
 const playerSelection = (() => {
     const gridEvent = document.getElementById('gameboard');
     let playerMove = 0;
     gridEvent.addEventListener('click', (event) => {
-        const boardElementId = event.target.id;
-        console.log(gameBoard);
         if (playerMove === 0 && !event.target.classList.contains('user-o')) {
-            gameBoard[boardElementId] = 'x'; // Board element id corresponds to the location of the gameBoard arr index
             event.target.classList.add('user-x');
             playerMove += 1;
         } else if (playerMove === 1 && !event.target.classList.contains('user-x')) {
-            gameBoard[boardElementId] = 'o'; // Board element id corresponds to the location of the gameBoard arr index
             event.target.classList.add('user-o');
             playerMove -= 1;
+        }
+    });
+})();
+
+const gameBoardUpdate = (() => {
+    const gridEvent = document.getElementById('gameboard');
+    gridEvent.addEventListener('click', (event) => {
+        gameFlow();
+        const cellDataId = event.target.dataset.id;
+        const boardElementId = event.target.id;
+        if (!event.target.classList.contains('user-o')) {
+            gameBoard[+cellDataId][+boardElementId] = 1;
+        } else if (!event.target.classList.contains('user-x')) {
+            console.log(gameBoard[+cellDataId][+boardElementId]);
         }
     });
 })();
