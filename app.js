@@ -7,6 +7,12 @@ const gameBoard = (() => {
     return gameBoard3x3grid;
 })();
 
+const clearBoard = () => {
+    gameBoard.forEach((value, index) => {
+        gameBoard[index] = 0;
+    });
+};
+
 const winConditions = (() => {
     const conditions = [[
         [1, 1, 1],
@@ -47,6 +53,11 @@ const winConditions = (() => {
     ];
     return conditions;
 })();
+
+const activePlayers = () => {
+    const player1 = 'John';
+    const player2 = 'Tom';
+};
 
 const gameFlow = () => {
     winConditions.forEach((condition) => {
