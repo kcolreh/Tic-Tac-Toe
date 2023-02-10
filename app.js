@@ -8,6 +8,11 @@ const gameBoard = (() => {
 })();
 
 const clearBoard = () => {
+    const boardElements = document.querySelectorAll('.board-elements');
+    boardElements.forEach(((element) => {
+        element.classList.remove('user-x');
+        element.classList.remove('user-o');
+    }));
     gameBoard.forEach((value, index) => {
         gameBoard[index] = 0;
     });
@@ -22,10 +27,12 @@ const checkRow = () => {
         if (possibilities[0] === rowIndex0
             && possibilities[0] === rowIndex1
             && possibilities[0] === rowIndex2) {
+            clearBoard();
             return console.log('x won row');
         } if (possibilities[1] === rowIndex0
             && possibilities[1] === rowIndex1
             && possibilities[1] === rowIndex2) {
+            clearBoard();
             return console.log('o won row');
         }
     }
@@ -40,10 +47,12 @@ const checkColumn = () => {
         if (possibilities[0] === columnIndex0
             && possibilities[0] === columnIndex1
             && possibilities[0] === columnIndex2) {
+            clearBoard();
             return console.log('x won column');
         } if (possibilities[1] === columnIndex0
             && possibilities[1] === columnIndex1
             && possibilities[1] === columnIndex2) {
+            clearBoard();
             return console.log('o won column');
         }
     }
@@ -63,6 +72,7 @@ const checkDiagonal = () => {
             || (possibilities[0] === diagonalIndex0
                 && possibilities[0] === diagonalIndex1
                 && possibilities[0] === diagonalIndex2)) {
+            clearBoard();
             return console.log('x won diagonal');
         } if ((possibilities[1] === diagonalIndex3
             && possibilities[1] === diagonalIndex1
@@ -70,15 +80,12 @@ const checkDiagonal = () => {
             || (possibilities[1] === diagonalIndex0
                 && possibilities[1] === diagonalIndex1
                 && possibilities[1] === diagonalIndex2)) {
+            clearBoard();
             return console.log('o won diagonal');
         }
     }
 };
 
-/* if ((gameBoard.toString()) === (condition.toString())) {
-    console.log('true');
-}
-*/
 /* const choosePlayer = () => {
     const choosePlayerBtns = document.getElementById('button-container');
     choosePlayerBtns.addEventListener('click', (event) => {
