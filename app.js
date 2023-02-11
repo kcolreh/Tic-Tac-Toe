@@ -1,3 +1,33 @@
+const chooseWeapon = (() => {
+    const choiseX = document.getElementById('choise-x');
+    const choiseO = document.getElementById('choise-o');
+    const choiseContainer = document.getElementById('x-o-choise-btns-container');
+    const enemyChoiseContainer = document.getElementById('enemy-choise-container');
+    choiseX.addEventListener('click', () => {
+        choiseContainer.classList.add('x-o-choise-btns-container-invisible');
+        enemyChoiseContainer.classList.remove('enemy-choise-container-inivisble');
+    });
+    choiseO.addEventListener('click', () => {
+        choiseContainer.classList.add('x-o-choise-btns-container-invisible');
+        enemyChoiseContainer.classList.remove('enemy-choise-container-inivisble');
+    });
+})();
+
+const chooseEnemy = (() => {
+    const choiseHuman = document.getElementById('choise-human');
+    const choiseAi = document.getElementById('choise-ai');
+    const enemyChoiseContainer = document.getElementById('enemy-choise-container');
+    const gameboard = document.getElementById('gameboard');
+    choiseHuman.addEventListener('click', () => {
+        enemyChoiseContainer.classList.add('enemy-choise-container-inivisble');
+        gameboard.classList.remove('invisible-gameboard');
+    });
+    choiseAi.addEventListener('click', () => {
+        enemyChoiseContainer.classList.add('enemy-choise-container-inivisble');
+        gameboard.classList.remove('invisible-gameboard');
+    });
+})();
+
 const gameBoard = (() => {
     const gameBoard3x3grid = [
         [0, 0, 0],

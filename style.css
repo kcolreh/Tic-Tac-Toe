@@ -1,13 +1,126 @@
+.x-o-choise-btns-container-invisible {
+  opacity: 0%;
+  pointer-events: none;
+}
+
+.x-o-choise-btns-container {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -150px;
+  margin-top: -150px;
+}
+
+.x-o-choise-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 900;
+  color: rgb(255, 0, 0);
+}
+
+.x-o-btns {
+  width: 150px;
+  height: 100px;
+  font-size: 5rem;
+}
+
+.x-btn,
+.o-btn {
+  color: white;
+  border: none;
+}
+
+.x-btn:hover,
+.o-btn:hover {
+  cursor: pointer;
+}
+
+.x-btn:active,
+.o-btn:active {
+  color: black;
+}
+
+.x-btn {
+  background-color: red;
+}
+
+.o-btn {
+  background-color: blue;
+}
+
+.enemy-choise-container-inivisble {
+  pointer-events: none;
+  opacity: 0%;
+}
+
+.enemy-choise-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items: center;
+  left: 50%;
+  top: 50%;
+  margin-left: -150px;
+  margin-top: -100px;
+}
+
+.enemy-choise-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 900;
+  color: rgb(255, 0, 0);
+}
+
+.enemy-choise-btn {
+  width: 150px;
+  height: 50px;
+  font-size: 2rem;
+}
+
+.human-btn,
+.ai-btn {
+  color: white;
+  border: none;
+}
+
+.human-btn:hover,
+.ai-btn:hover {
+  cursor: pointer;
+}
+
+.human-btn:active,
+.ai-btn:active {
+  color: black;
+}
+
+.human-btn {
+  background-color: red;
+}
+
+.ai-btn {
+  background-color: blue;
+}
+
+.invisible-gameboard {
+  opacity: 0%;
+  pointer-events: none;
+}
+
 .gameboard {
+  position: fixed;
   display: grid;
+  left: 50%;
+  top: 50%;
+  margin-left: -250px;
+  margin-top: -250px;
   grid-template-columns: 1fr 1fr 1fr;
   background-color: blue;
-  width: 50vw;
-  height: 50vh;
 }
 
 .board-elements {
   border: 1px solid black;
+  height: 150px;
+  width: 150px;
 }
 
 .user-x,
