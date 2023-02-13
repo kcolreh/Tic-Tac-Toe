@@ -1,15 +1,27 @@
-const chooseWeapon = (() => {
+const userChoise = (weapon) => {
+    const userWeapon = weapon;
+    return userWeapon;
+};
+
+let chooseWeapon = (() => {
     const choiseX = document.getElementById('choise-x');
     const choiseO = document.getElementById('choise-o');
     const choiseContainer = document.getElementById('x-o-choise-btns-container');
     const enemyChoiseContainer = document.getElementById('enemy-choise-container');
+
     choiseX.addEventListener('click', () => {
         choiseContainer.classList.add('x-o-choise-btns-container-invisible');
         enemyChoiseContainer.classList.remove('enemy-choise-container-inivisble');
+        const userChooseX = userChoise('x');
+        chooseWeapon = userChooseX;
+        return chooseWeapon;
     });
     choiseO.addEventListener('click', () => {
         choiseContainer.classList.add('x-o-choise-btns-container-invisible');
         enemyChoiseContainer.classList.remove('enemy-choise-container-inivisble');
+        const userChooseO = userChoise('o');
+        chooseWeapon = userChooseO;
+        return chooseWeapon;
     });
 })();
 
@@ -116,44 +128,25 @@ const checkDiagonal = () => {
     }
 };
 
-/* const choosePlayer = () => {
-    const choosePlayerBtns = document.getElementById('button-container');
-    choosePlayerBtns.addEventListener('click', (event) => {
-        const userChoise = event.target.id;
-        return userChoise;
-    });
-};
-
-const player1Move = () => {
-    const gridEvent = document.getElementById('gameboard');
-    gridEvent.addEventListener('click', (event) => {
-        const cellDataId = event.target.dataset.id;
-        const boardElementId = event.target.id;
-        gameBoard[+cellDataId][+boardElementId] = 1;
-    });
-};
-
-const player2Move = () => {
-    const gridEvent = document.getElementById('gameboard');
-    gridEvent.addEventListener('click', (event) => {
-        const cellDataId = event.target.dataset.id;
-        const boardElementId = event.target.id;
-        gameBoard[+cellDataId][+boardElementId] = 1;
-    });
-};
-*/
 const gameFlow = (() => {
     const gridEvent = document.getElementById('gameboard');
-    let playerMove = 0;
+    let moveCount = 0;
     gridEvent.addEventListener('click', (event) => {
-        if (playerMove % 2 === 0 && !event.target.classList.contains('user-o')) {
+        if (chooseWeapon.includes('x')) {
             event.target.classList.add('user-x');
-            playerMove += 1;
-            // player1Move();
-        } else if (!playerMove % 2 === 0 && !event.target.classList.contains('user-x')) {
+            chooseWeapon = '';
+            moveCount += 1;
+        } else if (chooseWeapon.includes('o')) {
             event.target.classList.add('user-o');
-            playerMove -= 1;
-            // player2Move();
+            chooseWeapon = '';
+        } else if (moveCount % 2 === 0 && !event.target.classList.contains('user-o')) {
+            event.target.classList.add('user-x');
+            moveCount += 1;
+            console.log(moveCount);
+        } else if (!moveCount % 2 === 0 && !event.target.classList.contains('user-x')) {
+            event.target.classList.add('user-o');
+            moveCount += 1;
+            console.log(moveCount);
         }
     });
 })();
