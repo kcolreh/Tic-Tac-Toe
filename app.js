@@ -1,6 +1,11 @@
-const userChoise = (weapon) => {
+const userChoiseWeapon = (weapon) => {
     const userWeapon = weapon;
     return userWeapon;
+};
+
+const userChoiseEnemy = (enemy) => {
+    const usersEnemy = enemy;
+    return usersEnemy;
 };
 
 let chooseWeapon = (() => {
@@ -12,31 +17,39 @@ let chooseWeapon = (() => {
     choiseX.addEventListener('click', () => {
         choiseContainer.classList.add('x-o-choise-btns-container-invisible');
         enemyChoiseContainer.classList.remove('enemy-choise-container-inivisble');
-        const userChooseX = userChoise('x');
-        chooseWeapon = userChooseX;
+        chooseWeapon = userChoiseWeapon('x');
+        console.log(chooseWeapon);
         return chooseWeapon;
     });
     choiseO.addEventListener('click', () => {
         choiseContainer.classList.add('x-o-choise-btns-container-invisible');
         enemyChoiseContainer.classList.remove('enemy-choise-container-inivisble');
-        const userChooseO = userChoise('o');
-        chooseWeapon = userChooseO;
+        chooseWeapon = userChoiseWeapon('o');
+        console.log(chooseWeapon);
         return chooseWeapon;
     });
 })();
 
-const chooseEnemy = (() => {
+let chooseEnemy = (() => {
     const choiseHuman = document.getElementById('choise-human');
     const choiseAi = document.getElementById('choise-ai');
     const enemyChoiseContainer = document.getElementById('enemy-choise-container');
     const gameboard = document.getElementById('gameboard');
+
     choiseHuman.addEventListener('click', () => {
         enemyChoiseContainer.classList.add('enemy-choise-container-inivisble');
         gameboard.classList.remove('invisible-gameboard');
+        chooseEnemy = userChoiseEnemy('human');
+        console.log(chooseEnemy);
+        return chooseEnemy;
     });
+
     choiseAi.addEventListener('click', () => {
         enemyChoiseContainer.classList.add('enemy-choise-container-inivisble');
         gameboard.classList.remove('invisible-gameboard');
+        chooseEnemy = userChoiseEnemy('ai');
+        console.log(chooseEnemy);
+        return chooseEnemy;
     });
 })();
 
@@ -58,6 +71,33 @@ const clearBoard = () => {
     gameBoard.forEach((value, index) => {
         gameBoard[index] = 0;
     });
+};
+
+const humanVsAiEasy = () => {
+    const randomIndex = Math.floor(Math.random() * 3);
+    const makeRandomChoise = (choise) => gameBoard[randomIndex][randomIndex] = choise;
+    if (gameBoard[randomIndex][randomIndex] !== 0
+        && gameBoard[randomIndex][randomIndex] !== 1) {
+        makeRandomChoise(2);
+        console.log(gameBoard);
+    } else if (gameBoard[randomIndex][randomIndex] !== 0
+        && gameBoard[randomIndex][randomIndex] !== 2) {
+        makeRandomChoise(1);
+        console.log(gameBoard);
+    }
+};
+
+const checkDraw = () => {
+    function reduceFunction(total, number) {
+        const sum = total + number;
+        return sum;
+    }
+    const row1Total = gameBoard[0].reduce(reduceFunction);
+    const row2Total = gameBoard[1].reduce(reduceFunction);
+    const row3Total = gameBoard[2].reduce(reduceFunction);
+    if (row1Total >= 4 && row2Total >= 4 && row3Total >= 4) {
+        console.log('its a draw');
+    }
 };
 
 const checkRow = () => {
@@ -134,19 +174,19 @@ const gameFlow = (() => {
     gridEvent.addEventListener('click', (event) => {
         if (chooseWeapon.includes('x')) {
             event.target.classList.add('user-x');
+            console.log(chooseWeapon);
             chooseWeapon = '';
             moveCount += 1;
         } else if (chooseWeapon.includes('o')) {
             event.target.classList.add('user-o');
+            console.log(chooseWeapon);
             chooseWeapon = '';
         } else if (moveCount % 2 === 0 && !event.target.classList.contains('user-o')) {
             event.target.classList.add('user-x');
             moveCount += 1;
-            console.log(moveCount);
         } else if (!moveCount % 2 === 0 && !event.target.classList.contains('user-x')) {
             event.target.classList.add('user-o');
             moveCount += 1;
-            console.log(moveCount);
         }
     });
 })();
@@ -161,6 +201,7 @@ const gameBoardUpdate = (() => {
         } else if (!event.target.classList.contains('user-x')) {
             gameBoard[+cellDataId][+boardElementId] = 2;
         }
+        checkDraw();
         checkRow();
         checkColumn();
         checkDiagonal();
