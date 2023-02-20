@@ -1,11 +1,25 @@
+let moveCounter = (() => {
+    const count = 0;
+    return count;
+})();
+
 const userChoiseWeapon = (weapon) => {
-    const userWeapon = weapon;
+    let userWeapon = '';
+    if (weapon === 'x') {
+        userWeapon = 1;
+    } else (userWeapon = 2);
     return userWeapon;
 };
 
 const userChoiseEnemy = (enemy) => {
     const usersEnemy = enemy;
     return usersEnemy;
+};
+
+let aiWeapon = () => {
+    if (chooseWeapon === 1) {
+        aiWeapon = 2;
+    } else aiWeapon = 1;
 };
 
 let chooseWeapon = (() => {
@@ -18,14 +32,14 @@ let chooseWeapon = (() => {
         choiseContainer.classList.add('x-o-choise-btns-container-invisible');
         enemyChoiseContainer.classList.remove('enemy-choise-container-inivisble');
         chooseWeapon = userChoiseWeapon('x');
-        console.log(chooseWeapon);
+        aiWeapon();
         return chooseWeapon;
     });
     choiseO.addEventListener('click', () => {
         choiseContainer.classList.add('x-o-choise-btns-container-invisible');
         enemyChoiseContainer.classList.remove('enemy-choise-container-inivisble');
         chooseWeapon = userChoiseWeapon('o');
-        console.log(chooseWeapon);
+        aiWeapon();
         return chooseWeapon;
     });
 })();
@@ -40,7 +54,6 @@ let chooseEnemy = (() => {
         enemyChoiseContainer.classList.add('enemy-choise-container-inivisble');
         gameboard.classList.remove('invisible-gameboard');
         chooseEnemy = userChoiseEnemy('human');
-        console.log(chooseEnemy);
         return chooseEnemy;
     });
 
@@ -48,7 +61,10 @@ let chooseEnemy = (() => {
         enemyChoiseContainer.classList.add('enemy-choise-container-inivisble');
         gameboard.classList.remove('invisible-gameboard');
         chooseEnemy = userChoiseEnemy('ai');
-        console.log(chooseEnemy);
+        if (aiWeapon === 1) {
+            humanVsAiEasy();
+            moveCounter += 1;
+        }
         return chooseEnemy;
     });
 })();
@@ -73,21 +89,7 @@ const clearBoard = () => {
     });
 };
 
-const humanVsAiEasy = () => {
-    const randomIndex = Math.floor(Math.random() * 3);
-    const makeRandomChoise = (choise) => gameBoard[randomIndex][randomIndex] = choise;
-    if (gameBoard[randomIndex][randomIndex] !== 0
-        && gameBoard[randomIndex][randomIndex] !== 1) {
-        makeRandomChoise(2);
-        console.log(gameBoard);
-    } else if (gameBoard[randomIndex][randomIndex] !== 0
-        && gameBoard[randomIndex][randomIndex] !== 2) {
-        makeRandomChoise(1);
-        console.log(gameBoard);
-    }
-};
-
-const checkDraw = () => {
+let checkDraw = () => {
     function reduceFunction(total, number) {
         const sum = total + number;
         return sum;
@@ -96,11 +98,15 @@ const checkDraw = () => {
     const row2Total = gameBoard[1].reduce(reduceFunction);
     const row3Total = gameBoard[2].reduce(reduceFunction);
     if (row1Total >= 4 && row2Total >= 4 && row3Total >= 4) {
+        clearBoard();
         console.log('its a draw');
+        checkDraw = 'Draw';
+        return checkDraw;
     }
+    return checkDraw;
 };
 
-const checkRow = () => {
+let checkRow = () => {
     const possibilities = [1, 2];
     for (let i = 0; i < gameBoard.length; i += 1) {
         const rowIndex0 = gameBoard[i][0];
@@ -110,17 +116,22 @@ const checkRow = () => {
             && possibilities[0] === rowIndex1
             && possibilities[0] === rowIndex2) {
             clearBoard();
-            return console.log('x won row');
+            console.log('x won row');
+            checkRow = 'x won row!';
+            return checkRow;
         } if (possibilities[1] === rowIndex0
             && possibilities[1] === rowIndex1
             && possibilities[1] === rowIndex2) {
             clearBoard();
-            return console.log('o won row');
+            console.log('o won row');
+            checkRow = 'o won row!';
+            return checkRow;
         }
     }
+    return checkRow;
 };
 
-const checkColumn = () => {
+let checkColumn = () => {
     const possibilities = [1, 2];
     for (let i = 0; i < gameBoard.length; i += 1) {
         const columnIndex0 = gameBoard[0][i];
@@ -130,17 +141,22 @@ const checkColumn = () => {
             && possibilities[0] === columnIndex1
             && possibilities[0] === columnIndex2) {
             clearBoard();
-            return console.log('x won column');
+            console.log('x won column');
+            checkColumn = 'x won column';
+            return checkColumn;
         } if (possibilities[1] === columnIndex0
             && possibilities[1] === columnIndex1
             && possibilities[1] === columnIndex2) {
             clearBoard();
-            return console.log('o won column');
+            console.log('o won column');
+            checkColumn = 'o won column';
+            return checkColumn;
         }
     }
+    return checkColumn;
 };
 
-const checkDiagonal = () => {
+let checkDiagonal = () => {
     const possibilities = [1, 2];
     for (let i = 0; i < gameBoard.length; i += 1) {
         const diagonalIndex0 = gameBoard[0][0];
@@ -155,7 +171,9 @@ const checkDiagonal = () => {
                 && possibilities[0] === diagonalIndex1
                 && possibilities[0] === diagonalIndex2)) {
             clearBoard();
-            return console.log('x won diagonal');
+            console.log('x won diagonal');
+            checkDiagonal = 'x won diagonal';
+            return checkDiagonal;
         } if ((possibilities[1] === diagonalIndex3
             && possibilities[1] === diagonalIndex1
             && possibilities[1] === diagonalIndex4)
@@ -163,47 +181,68 @@ const checkDiagonal = () => {
                 && possibilities[1] === diagonalIndex1
                 && possibilities[1] === diagonalIndex2)) {
             clearBoard();
-            return console.log('o won diagonal');
+            console.log('o won diagonal');
+            checkDiagonal = 'o won diagonal';
+            return checkDiagonal;
         }
+    }
+    return checkDiagonal;
+};
+
+const updateBoard = () => {
+    const boardElements = document.querySelectorAll('.board-elements');
+    boardElements.forEach((element) => {
+        const index1 = element.dataset.id.slice(1, 2);
+        const index2 = element.dataset.id.slice(5, 6);
+        if (gameBoard[index1][index2] === 1) {
+            element.classList.add('user-x');
+        } else if (gameBoard[index1][index2] === 2) {
+            element.classList.add('user-o');
+        }
+    });
+    checkDraw();
+    checkRow();
+    checkColumn();
+    checkDiagonal();
+};
+
+const humanVsAiEasy = (moveCount) => {
+    const choise1 = Math.floor(Math.random() * 3);
+    const choise2 = Math.floor(Math.random() * 3);
+    console.log(choise1, choise2);
+    if (moveCounter % 2 === 0 && chooseEnemy.includes('ai') && gameBoard[choise1][choise2] === 0) {
+        gameBoard[choise1][choise2] = aiWeapon;
+        updateBoard();
+    } else if (moveCounter % 2 !== 0 && chooseEnemy.includes('ai') && gameBoard[choise1][choise2] === 0) {
+        gameBoard[choise1][choise2] = aiWeapon;
+        updateBoard();
+    } else if (gameBoard[choise1][choise2] === 1 || gameBoard[choise1][choise2] === 2) {
+        humanVsAiEasy(moveCount);
     }
 };
 
 const gameFlow = (() => {
     const gridEvent = document.getElementById('gameboard');
-    let moveCount = 0;
-    gridEvent.addEventListener('click', (event) => {
-        if (chooseWeapon.includes('x')) {
-            event.target.classList.add('user-x');
-            console.log(chooseWeapon);
-            chooseWeapon = '';
-            moveCount += 1;
-        } else if (chooseWeapon.includes('o')) {
-            event.target.classList.add('user-o');
-            console.log(chooseWeapon);
-            chooseWeapon = '';
-        } else if (moveCount % 2 === 0 && !event.target.classList.contains('user-o')) {
-            event.target.classList.add('user-x');
-            moveCount += 1;
-        } else if (!moveCount % 2 === 0 && !event.target.classList.contains('user-x')) {
-            event.target.classList.add('user-o');
-            moveCount += 1;
-        }
-    });
-})();
 
-const gameBoardUpdate = (() => {
-    const gridEvent = document.getElementById('gameboard');
     gridEvent.addEventListener('click', (event) => {
-        const cellDataId = event.target.dataset.id;
-        const boardElementId = event.target.id;
-        if (!event.target.classList.contains('user-o')) {
-            gameBoard[+cellDataId][+boardElementId] = 1;
-        } else if (!event.target.classList.contains('user-x')) {
-            gameBoard[+cellDataId][+boardElementId] = 2;
+        const index1 = event.target.dataset.id.slice(1, 2);
+        const index2 = event.target.dataset.id.slice(5, 6);
+        if (moveCounter % 2 === 0 && gameBoard[index1][index2] === 0) {
+            gameBoard[index1][index2] = 1;
+            moveCounter += 1;
+            updateBoard();
+            if (chooseEnemy.includes('ai')) {
+                humanVsAiEasy(moveCounter);
+                moveCounter += 1;
+            }
+        } else if (moveCounter % 2 !== 0 && gameBoard[index1][index2] === 0) {
+            gameBoard[index1][index2] = 2;
+            moveCounter += 1;
+            updateBoard(moveCounter);
+            if (chooseEnemy.includes('ai')) {
+                humanVsAiEasy(moveCounter);
+                moveCounter += 1;
+            }
         }
-        checkDraw();
-        checkRow();
-        checkColumn();
-        checkDiagonal();
     });
 })();
