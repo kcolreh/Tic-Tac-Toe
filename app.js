@@ -200,16 +200,17 @@ const updateBoard = () => {
             element.classList.add('user-o');
         }
     });
-    checkDraw();
-    checkRow();
-    checkColumn();
-    checkDiagonal();
+    minimax();
+    isMovesLeft();
+    // checkDraw();
+    // checkRow();
+    // checkColumn();
+    // checkDiagonal();
 };
 
 const humanVsAiEasy = (moveCount) => {
     const choise1 = Math.floor(Math.random() * 3);
     const choise2 = Math.floor(Math.random() * 3);
-    console.log(choise1, choise2);
     if (moveCounter % 2 === 0 && chooseEnemy.includes('ai') && gameBoard[choise1][choise2] === 0) {
         gameBoard[choise1][choise2] = aiWeapon;
         updateBoard();
@@ -221,9 +222,78 @@ const humanVsAiEasy = (moveCount) => {
     }
 };
 
+function eveluateMove(board) {
+    for (let row = 0; row < gameBoard.length; row += 1) {
+        if (board[row][0] === board[row][1] && board[row][1] === board[row][2]) {
+            if (board[row][0] && board[row][1] && board[row][2] === 1) {
+                return +10;
+            } if (board[row][0] && board[row][1] && board[row][2] === 2) {
+                return -10;
+            }
+        }
+    }
+
+    for (let column = 0; column < gameBoard.length; column += 1) {
+        if (board[0][column] === board[1][column] && board[1][column] === board[2][column]) {
+            if (board[0][column] && board[1][column] && board[2][column] === 1) {
+                return +10;
+            } if (board[0][column] && board[1][column] && board[2][column] === 2) {
+                return -10;
+            }
+        }
+    }
+
+    const diag1 = board[0][0];
+    const diag2 = board[1][1];
+    const diag3 = board[2][2];
+    const diag4 = board[0][2];
+    const diag5 = board[2][0];
+    if ((diag1 === diag2 && diag2 === diag3) || (diag4 === diag2 && diag2 === diag5)) {
+        if ((diag1 && diag2 && diag3 === 1) || (diag4 && diag2 && diag5 === 1)) {
+            return +10;
+        } if ((diag1 && diag2 && diag3 === 2) || (diag4 && diag2 && diag5 === 2)) {
+            return -10;
+        }
+    } else return 0;
+}
+
+function findBestMove() {
+    const bestMove = null;
+    const value = eveluateMove(gameBoard);
+}
+
+function minimax(board, depth, isMaximizingPlayer) {
+    if (isMovesLeft() === false) {
+        console.log('gameover');
+    }
+
+    if (isMaximizingPlayer === true) {
+        let bestValue = -Infinity;
+        const value = minimax(board, depth + 1, false);
+        bestValue = max(bestValue, value);
+        return bestValue;
+    }
+
+    if (isMaximizingPlayer === false) {
+        let bestValue = +Infinity;
+        const value = minimax(board, depth - 1, false);
+        bestValue = min(bestValue, value);
+        return bestValue;
+    }
+}
+
+function isMovesLeft() {
+    let movesAvailable = true;
+    const movesLeftR1 = gameBoard[0].every((value) => value > 0);
+    const movesLeftR2 = gameBoard[1].every((value) => value > 0);
+    const movesLeftR3 = gameBoard[2].every((value) => value > 0);
+    if (movesLeftR1 === true && movesLeftR2 === true && movesLeftR3 === true) {
+        movesAvailable = false;
+    } return movesAvailable;
+}
+
 const gameFlow = (() => {
     const gridEvent = document.getElementById('gameboard');
-
     gridEvent.addEventListener('click', (event) => {
         const index1 = event.target.dataset.id.slice(1, 2);
         const index2 = event.target.dataset.id.slice(5, 6);
