@@ -80,7 +80,7 @@ const clearBoard = () => {
     });
 };
 
-const checkDraw = () => {
+let checkDraw = () => {
     function reduceFunction(total, number) {
         const sum = total + number;
         return sum;
@@ -90,7 +90,10 @@ const checkDraw = () => {
     const row3Total = board[2].reduce(reduceFunction);
     if (row1Total >= 4 && row2Total >= 4 && row3Total >= 4) {
         console.log('its a draw');
+        checkDraw = true;
+        return checkDraw;
     }
+    return checkDraw;
 };
 
 function checkWinner() {
@@ -309,7 +312,7 @@ const humanVsHuman = (() => {
 })();
 
 function aiMove() {
-    if (isAiTurn === true && chooseEnemy.includes('ai')) {
+    if (isAiTurn === true && chooseEnemy.includes('ai') && checkDraw !== true) {
         const move = findBestMove(board);
         board[move.row][move.column] = aiWeapon;
         isPlayersTurn = true;
