@@ -1,14 +1,8 @@
-let moveCounter = (() => {
-    const count = 0;
-    return count;
-})();
-
-const userChoiseWeapon = (weapon) => {
-    let userWeapon = '';
+let userChoiseWeapon = (weapon) => {
     if (weapon === 'x') {
-        userWeapon = 1;
-    } else (userWeapon = 2);
-    return userWeapon;
+        userChoiseWeapon = 1;
+    } else (userChoiseWeapon = 2);
+    return userChoiseWeapon;
 };
 
 const userChoiseEnemy = (enemy) => {
@@ -48,28 +42,25 @@ let chooseEnemy = (() => {
     const choiseHuman = document.getElementById('choise-human');
     const choiseAi = document.getElementById('choise-ai');
     const enemyChoiseContainer = document.getElementById('enemy-choise-container');
-    const gameboard = document.getElementById('gameboard');
+    const board = document.getElementById('gameboard');
 
     choiseHuman.addEventListener('click', () => {
         enemyChoiseContainer.classList.add('enemy-choise-container-inivisble');
-        gameboard.classList.remove('invisible-gameboard');
+        board.classList.remove('invisible-gameboard');
         chooseEnemy = userChoiseEnemy('human');
         return chooseEnemy;
     });
 
     choiseAi.addEventListener('click', () => {
         enemyChoiseContainer.classList.add('enemy-choise-container-inivisble');
-        gameboard.classList.remove('invisible-gameboard');
+        board.classList.remove('invisible-gameboard');
         chooseEnemy = userChoiseEnemy('ai');
-        if (aiWeapon === 1) {
-            humanVsAiEasy();
-            moveCounter += 1;
-        }
+        aiFirstMove();
         return chooseEnemy;
     });
 })();
 
-const gameBoard = (() => {
+const board = (() => {
     const gameBoard3x3grid = [
         [0, 0, 0],
         [0, 0, 0],
@@ -84,235 +75,245 @@ const clearBoard = () => {
         element.classList.remove('user-x');
         element.classList.remove('user-o');
     }));
-    gameBoard.forEach((value, index) => {
-        gameBoard[index] = 0;
+    board.forEach((value, index) => {
+        board[index] = 0;
     });
 };
 
-let checkDraw = () => {
+const checkDraw = () => {
     function reduceFunction(total, number) {
         const sum = total + number;
         return sum;
     }
-    const row1Total = gameBoard[0].reduce(reduceFunction);
-    const row2Total = gameBoard[1].reduce(reduceFunction);
-    const row3Total = gameBoard[2].reduce(reduceFunction);
+    const row1Total = board[0].reduce(reduceFunction);
+    const row2Total = board[1].reduce(reduceFunction);
+    const row3Total = board[2].reduce(reduceFunction);
     if (row1Total >= 4 && row2Total >= 4 && row3Total >= 4) {
-        clearBoard();
         console.log('its a draw');
-        checkDraw = 'Draw';
-        return checkDraw;
     }
-    return checkDraw;
 };
 
-let checkRow = () => {
-    const possibilities = [1, 2];
-    for (let i = 0; i < gameBoard.length; i += 1) {
-        const rowIndex0 = gameBoard[i][0];
-        const rowIndex1 = gameBoard[i][1];
-        const rowIndex2 = gameBoard[i][2];
-        if (possibilities[0] === rowIndex0
-            && possibilities[0] === rowIndex1
-            && possibilities[0] === rowIndex2) {
-            clearBoard();
-            console.log('x won row');
-            checkRow = 'x won row!';
-            return checkRow;
-        } if (possibilities[1] === rowIndex0
-            && possibilities[1] === rowIndex1
-            && possibilities[1] === rowIndex2) {
-            clearBoard();
-            console.log('o won row');
-            checkRow = 'o won row!';
-            return checkRow;
+function checkWinner() {
+    for (let row = 0; row < board.length; row += 1) {
+        if (board[row][0] === board[row][1] && board[row][1] === board[row][2]) {
+            if (board[row][0] === 1) {
+                console.log('x won');
+            } if (board[row][0] === 2) {
+                console.log('o won');
+            }
         }
     }
-    return checkRow;
-};
 
-let checkColumn = () => {
-    const possibilities = [1, 2];
-    for (let i = 0; i < gameBoard.length; i += 1) {
-        const columnIndex0 = gameBoard[0][i];
-        const columnIndex1 = gameBoard[1][i];
-        const columnIndex2 = gameBoard[2][i];
-        if (possibilities[0] === columnIndex0
-            && possibilities[0] === columnIndex1
-            && possibilities[0] === columnIndex2) {
-            clearBoard();
-            console.log('x won column');
-            checkColumn = 'x won column';
-            return checkColumn;
-        } if (possibilities[1] === columnIndex0
-            && possibilities[1] === columnIndex1
-            && possibilities[1] === columnIndex2) {
-            clearBoard();
-            console.log('o won column');
-            checkColumn = 'o won column';
-            return checkColumn;
+    for (let column = 0; column < board.length; column += 1) {
+        if (board[0][column] === board[1][column] && board[1][column] === board[2][column]) {
+            if (board[0][column] === 1) {
+                console.log('x won');
+            } if (board[0][column] === 2) {
+                console.log('o won');
+            }
         }
     }
-    return checkColumn;
-};
 
-let checkDiagonal = () => {
-    const possibilities = [1, 2];
-    for (let i = 0; i < gameBoard.length; i += 1) {
-        const diagonalIndex0 = gameBoard[0][0];
-        const diagonalIndex1 = gameBoard[1][1];
-        const diagonalIndex2 = gameBoard[2][2];
-        const diagonalIndex3 = gameBoard[0][2];
-        const diagonalIndex4 = gameBoard[2][0];
-        if ((possibilities[0] === diagonalIndex3
-            && possibilities[0] === diagonalIndex1
-            && possibilities[0] === diagonalIndex4)
-            || (possibilities[0] === diagonalIndex0
-                && possibilities[0] === diagonalIndex1
-                && possibilities[0] === diagonalIndex2)) {
-            clearBoard();
-            console.log('x won diagonal');
-            checkDiagonal = 'x won diagonal';
-            return checkDiagonal;
-        } if ((possibilities[1] === diagonalIndex3
-            && possibilities[1] === diagonalIndex1
-            && possibilities[1] === diagonalIndex4)
-            || (possibilities[1] === diagonalIndex0
-                && possibilities[1] === diagonalIndex1
-                && possibilities[1] === diagonalIndex2)) {
-            clearBoard();
-            console.log('o won diagonal');
-            checkDiagonal = 'o won diagonal';
-            return checkDiagonal;
+    if (board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+        if (board[0][0] === 1) {
+            console.log('x won');
+        } if (board[0][0] === 2) {
+            console.log('o won');
         }
     }
-    return checkDiagonal;
-};
+
+    if (board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
+        if (board[0][2] === 1) {
+            console.log('x won');
+        } if (board[0][2] === 2) {
+            console.log('o won');
+        }
+    }
+}
 
 const updateBoard = () => {
     const boardElements = document.querySelectorAll('.board-elements');
     boardElements.forEach((element) => {
         const index1 = element.dataset.id.slice(1, 2);
         const index2 = element.dataset.id.slice(5, 6);
-        if (gameBoard[index1][index2] === 1) {
+        if (board[index1][index2] === 1) {
             element.classList.add('user-x');
-        } else if (gameBoard[index1][index2] === 2) {
+        } else if (board[index1][index2] === 2) {
             element.classList.add('user-o');
         }
     });
-    minimax();
-    isMovesLeft();
-    // checkDraw();
-    // checkRow();
-    // checkColumn();
-    // checkDiagonal();
-};
-
-const humanVsAiEasy = (moveCount) => {
-    const choise1 = Math.floor(Math.random() * 3);
-    const choise2 = Math.floor(Math.random() * 3);
-    if (moveCounter % 2 === 0 && chooseEnemy.includes('ai') && gameBoard[choise1][choise2] === 0) {
-        gameBoard[choise1][choise2] = aiWeapon;
-        updateBoard();
-    } else if (moveCounter % 2 !== 0 && chooseEnemy.includes('ai') && gameBoard[choise1][choise2] === 0) {
-        gameBoard[choise1][choise2] = aiWeapon;
-        updateBoard();
-    } else if (gameBoard[choise1][choise2] === 1 || gameBoard[choise1][choise2] === 2) {
-        humanVsAiEasy(moveCount);
-    }
+    checkWinner();
+    checkDraw();
 };
 
 function eveluateMove(board) {
-    for (let row = 0; row < gameBoard.length; row += 1) {
+    for (let row = 0; row < board.length; row += 1) {
         if (board[row][0] === board[row][1] && board[row][1] === board[row][2]) {
-            if (board[row][0] && board[row][1] && board[row][2] === 1) {
+            if (board[row][0] === 1) {
                 return +10;
-            } if (board[row][0] && board[row][1] && board[row][2] === 2) {
+            } if (board[row][0] === 2) {
                 return -10;
             }
         }
     }
 
-    for (let column = 0; column < gameBoard.length; column += 1) {
+    for (let column = 0; column < board.length; column += 1) {
         if (board[0][column] === board[1][column] && board[1][column] === board[2][column]) {
-            if (board[0][column] && board[1][column] && board[2][column] === 1) {
+            if (board[0][column] === 1) {
                 return +10;
-            } if (board[0][column] && board[1][column] && board[2][column] === 2) {
+            } if (board[0][column] === 2) {
                 return -10;
             }
         }
     }
 
-    const diag1 = board[0][0];
-    const diag2 = board[1][1];
-    const diag3 = board[2][2];
-    const diag4 = board[0][2];
-    const diag5 = board[2][0];
-    if ((diag1 === diag2 && diag2 === diag3) || (diag4 === diag2 && diag2 === diag5)) {
-        if ((diag1 && diag2 && diag3 === 1) || (diag4 && diag2 && diag5 === 1)) {
+    if (board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+        if (board[0][0] === 1) {
             return +10;
-        } if ((diag1 && diag2 && diag3 === 2) || (diag4 && diag2 && diag5 === 2)) {
+        } if (board[0][0] === 2) {
             return -10;
         }
-    } else return 0;
+    }
+    if (board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
+        if (board[0][2] === 1) {
+            return +10;
+        } if (board[0][2] === 2) {
+            return -10;
+        }
+    } return 0;
 }
 
-function findBestMove() {
-    const bestMove = null;
-    const value = eveluateMove(gameBoard);
-}
+function minimax(board, depth, isMaximizer) {
+    const score = eveluateMove(board);
 
-function minimax(board, depth, isMaximizingPlayer) {
+    if (score === 10) {
+        return score;
+    }
+    if (score === -10) {
+        return score;
+    }
+
     if (isMovesLeft() === false) {
-        console.log('gameover');
+        return 0;
     }
 
-    if (isMaximizingPlayer === true) {
-        let bestValue = -Infinity;
-        const value = minimax(board, depth + 1, false);
-        bestValue = max(bestValue, value);
-        return bestValue;
+    if (isMaximizer) {
+        let best = -1000;
+
+        for (let row = 0; row < board.length; row += 1) {
+            for (let column = 0; column < board.length; column += 1) {
+                if (board[row][column] === 0) {
+                    board[row][column] = 1;
+                    best = Math.max(best, minimax(board, depth + 1, false));
+                    board[row][column] = 0;
+                }
+            }
+        } return best;
     }
 
-    if (isMaximizingPlayer === false) {
-        let bestValue = +Infinity;
-        const value = minimax(board, depth - 1, false);
-        bestValue = min(bestValue, value);
-        return bestValue;
+    if (!isMaximizer) {
+        let best = 1000;
+
+        for (let row = 0; row < board.length; row += 1) {
+            for (let column = 0; column < board.length; column += 1) {
+                if (board[row][column] === 0) {
+                    board[row][column] = 2;
+                    best = Math.min(best, minimax(board, depth + 1, true));
+                    board[row][column] = 0;
+                }
+            }
+        } return best;
     }
+}
+
+const makeMove = (row, column) => ({ row, column });
+
+function findBestMove(board) {
+    let bestValue = aiWeapon === 1 ? -Infinity : +Infinity;
+    const bestMove = makeMove;
+    bestMove.row = -1;
+    bestMove.column = -1;
+
+    for (let row = 0; row < board.length; row += 1) {
+        for (let column = 0; column < board.length; column += 1) {
+            if (board[row][column] === 0 && aiWeapon === 1) {
+                board[row][column] = aiWeapon;
+                const moveValue = minimax(board, 0, false);
+                board[row][column] = 0;
+                if (moveValue > bestValue) {
+                    bestMove.row = row;
+                    bestMove.column = column;
+                    bestValue = moveValue;
+                }
+            } if (board[row][column] === 0 && aiWeapon === 2) {
+                board[row][column] = aiWeapon;
+                const moveValue = minimax(board, 0, true);
+                board[row][column] = 0;
+                if (moveValue < bestValue) {
+                    bestMove.row = row;
+                    bestMove.column = column;
+                    bestValue = moveValue;
+                }
+            }
+        }
+    } return bestMove;
 }
 
 function isMovesLeft() {
     let movesAvailable = true;
-    const movesLeftR1 = gameBoard[0].every((value) => value > 0);
-    const movesLeftR2 = gameBoard[1].every((value) => value > 0);
-    const movesLeftR3 = gameBoard[2].every((value) => value > 0);
+    const movesLeftR1 = board[0].every((value) => value > 0);
+    const movesLeftR2 = board[1].every((value) => value > 0);
+    const movesLeftR3 = board[2].every((value) => value > 0);
     if (movesLeftR1 === true && movesLeftR2 === true && movesLeftR3 === true) {
         movesAvailable = false;
     } return movesAvailable;
 }
 
-const gameFlow = (() => {
+let isPlayersTurn = (() => true)();
+
+let isAiTurn = (() => false)();
+
+function aiFirstMove() {
+    if (aiWeapon === 1) {
+        isAiTurn = true;
+        aiMove();
+    }
+}
+
+const humanMove = (() => {
     const gridEvent = document.getElementById('gameboard');
     gridEvent.addEventListener('click', (event) => {
         const index1 = event.target.dataset.id.slice(1, 2);
         const index2 = event.target.dataset.id.slice(5, 6);
-        if (moveCounter % 2 === 0 && gameBoard[index1][index2] === 0) {
-            gameBoard[index1][index2] = 1;
-            moveCounter += 1;
+        if (isPlayersTurn === true && board[index1][index2] === 0) {
+            board[index1][index2] = userChoiseWeapon;
+            isPlayersTurn = false;
+            isAiTurn = true;
             updateBoard();
-            if (chooseEnemy.includes('ai')) {
-                humanVsAiEasy(moveCounter);
-                moveCounter += 1;
-            }
-        } else if (moveCounter % 2 !== 0 && gameBoard[index1][index2] === 0) {
-            gameBoard[index1][index2] = 2;
-            moveCounter += 1;
-            updateBoard(moveCounter);
-            if (chooseEnemy.includes('ai')) {
-                humanVsAiEasy(moveCounter);
-                moveCounter += 1;
-            }
+            aiMove();
         }
     });
 })();
+
+const humanVsHuman = (() => {
+    const gridEvent = document.getElementById('gameboard');
+    gridEvent.addEventListener('click', (event) => {
+        const index1 = event.target.dataset.id.slice(1, 2);
+        const index2 = event.target.dataset.id.slice(5, 6);
+        if (isPlayersTurn === false && isAiTurn === false && board[index1][index2] === 0) {
+            board[index1][index2] = aiWeapon;
+            isPlayersTurn = true;
+            updateBoard();
+        }
+    });
+})();
+
+function aiMove() {
+    if (isAiTurn === true && chooseEnemy.includes('ai')) {
+        const move = findBestMove(board);
+        board[move.row][move.column] = aiWeapon;
+        isPlayersTurn = true;
+        isAiTurn = false;
+        updateBoard();
+    } else isAiTurn = false;
+}
