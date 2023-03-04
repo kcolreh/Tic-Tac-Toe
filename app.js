@@ -69,17 +69,6 @@ const board = (() => {
     return gameBoard3x3grid;
 })();
 
-const clearBoard = () => {
-    const boardElements = document.querySelectorAll('.board-elements');
-    boardElements.forEach(((element) => {
-        element.classList.remove('user-x');
-        element.classList.remove('user-o');
-    }));
-    board.forEach((value, index) => {
-        board[index] = 0;
-    });
-};
-
 let checkDraw = () => {
     const winnerContainer = document.getElementById('winner-container');
     const draw = document.getElementById('draw');

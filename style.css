@@ -13,6 +13,13 @@
 
   --clr-player-x: hsl(357, 66%, 52%);
   --clr-player-o: hsl(223, 44%, 45%);
+
+  --font-main: "customFont";
+}
+
+@font-face {
+  font-family: "CustomFont";
+  src: url(./Fonts/Orbitron/Orbitron-VariableFont_wght.ttf);
 }
 
 .x-o-choise-btns-container-invisible {
@@ -33,6 +40,7 @@
 
 .x-o-choise-title,
 .enemy-choise-title {
+  font-family: "CustomFont";
   text-align: center;
   font-size: 3rem;
   font-weight: 600;
@@ -171,6 +179,7 @@
   width: 100%;
   top: 50%;
   margin-top: -100px;
+  font-family: var(--font-main);
 }
 
 .winner-announcer,
