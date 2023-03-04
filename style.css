@@ -1,51 +1,86 @@
+:root {
+  --clr-neutral-black: hsl(0, 75%, 2%);
+  --clr-neutral-white: hsl(0, 0%, 100%);
+
+  --clr-darkblue-500: hsl(240, 100%, 7%);
+  --clr-darkblue-300: hsl(240, 38%, 16%);
+  --clr-darkblue-100: hsl(240, 22%, 25%);
+
+  --clr-red-500: hsl(0, 100%, 38%);
+  --clr-red-300: hsl(0, 100%, 48%);
+
+  --clr-yellow-500: hsl(53, 99%, 50%);
+
+  --clr-player-x: hsl(357, 66%, 52%);
+  --clr-player-o: hsl(223, 44%, 45%);
+}
+
 .x-o-choise-btns-container-invisible {
   opacity: 0%;
   pointer-events: none;
 }
 
-.x-o-choise-btns-container {
+.x-o-choise-btns-container,
+.enemy-choise-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: fixed;
-  left: 50%;
+  width: 100%;
   top: 50%;
-  margin-left: -150px;
   margin-top: -150px;
 }
 
-.x-o-choise-title {
+.x-o-choise-title,
+.enemy-choise-title {
   text-align: center;
-  font-size: 2rem;
-  font-weight: 900;
-  color: rgb(255, 0, 0);
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--clr-yellow-500);
 }
 
-.x-o-btns {
+.x-o-btns,
+.enemy-choise-btn {
   width: 150px;
   height: 100px;
   font-size: 5rem;
 }
 
+.enemy-choise-btn {
+  font-size: 2.5rem;
+}
+
 .x-btn,
-.o-btn {
-  color: white;
+.o-btn,
+.human-btn,
+.ai-btn {
+  color: var(--clr-neutral-white);
   border: none;
 }
 
 .x-btn:hover,
-.o-btn:hover {
+.o-btn:hover,
+.human-btn:hover,
+.ai-btn:hover {
+  border: 2px solid var(--clr-neutral-white);
   cursor: pointer;
 }
 
 .x-btn:active,
-.o-btn:active {
-  color: black;
+.o-btn:active,
+.human-btn:active,
+.ai-btn:active {
+  color: var(--clr-neutral-black);
 }
 
-.x-btn {
-  background-color: red;
+.x-btn,
+.human-btn {
+  background-color: var(--clr-player-x);
 }
 
-.o-btn {
-  background-color: blue;
+.o-btn,
+.ai-btn {
+  background-color: var(--clr-player-o);
 }
 
 .enemy-choise-container-inivisble {
@@ -53,57 +88,13 @@
   opacity: 0%;
 }
 
-.enemy-choise-container {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  align-items: center;
-  left: 50%;
-  top: 50%;
-  margin-left: -150px;
-  margin-top: -100px;
-}
-
-.enemy-choise-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 900;
-  color: rgb(255, 0, 0);
-}
-
-.enemy-choise-btn {
-  width: 150px;
-  height: 50px;
-  font-size: 2rem;
-}
-
-.human-btn,
-.ai-btn {
-  color: white;
-  border: none;
-}
-
-.human-btn:hover,
-.ai-btn:hover {
-  cursor: pointer;
-}
-
-.human-btn:active,
-.ai-btn:active {
-  color: black;
-}
-
-.human-btn {
-  background-color: red;
-}
-
-.ai-btn {
-  background-color: blue;
-}
-
 .invisible-gameboard {
   opacity: 0%;
   pointer-events: none;
+}
+
+.semi-invisible-gameboard {
+  opacity: 20%;
 }
 
 .gameboard {
@@ -114,31 +105,83 @@
   margin-left: -250px;
   margin-top: -250px;
   grid-template-columns: 1fr 1fr 1fr;
-  background-color: blue;
+  background-color: var(--clr-neutral-white);
 }
 
 .board-elements {
-  border: 1px solid black;
-  height: 150px;
-  width: 150px;
+  border: solid var(--clr-neutral-black);
+  height: 145px;
+  width: 145px;
 }
 
+.board-element-top {
+  border-width: 0px 5px 5px 0px;
+}
+
+.board-element-top-3 {
+  border-width: 0px 0px 5px 0px;
+}
+
+.board-element-middle {
+  border-width: 0px 5px 0px 0px;
+}
+
+.board-element-middle-3 {
+  border-width: 0px 0px 0px 0px;
+}
+
+.board-element-bot {
+  border-width: 5px 5px 0px 0px;
+}
+
+.board-element-bot-3 {
+  border-width: 5px 0px 0px 0px;
+}
+
+.board-elements,
 .user-x,
 .user-o {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
 }
 
 .user-x::after {
-  font-size: 3rem;
+  font-size: 5rem;
   content: "x";
-  position: absolute;
+  color: var(--clr-player-x);
 }
 
 .user-o::after {
-  font-size: 3rem;
+  font-size: 5rem;
   content: "o";
-  position: absolute;
+  color: var(--clr-player-o);
+}
+
+.winner-title-container-invisible {
+  pointer-events: none;
+  opacity: 0%;
+}
+
+.winner-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  margin-top: -100px;
+}
+
+.winner-announcer,
+.winner {
+  margin: 0;
+}
+
+.winner-announcer {
+  font-size: 3rem;
+}
+
+.winner {
+  font-size: 9rem;
 }

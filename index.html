@@ -12,8 +12,10 @@
     <header>
       <div class="x-o-choise-btns-container" id="x-o-choise-btns-container">
         <p class="x-o-choise-title">Choose your weapon!</p>
+        <div class="button-container">
         <button class="x-o-btns x-btn" id="choise-x">X</button>
         <button class="x-o-btns o-btn" id="choise-o">O</button>
+        </div>
       </div>
     </header>
     <section>
@@ -22,23 +24,31 @@
         id="enemy-choise-container"
       >
         <p class="enemy-choise-title">Choose your enemy!</p>
+        <div class="button-container">
         <button class="enemy-choise-btn human-btn" id="choise-human">
           Human
         </button>
         <button class="enemy-choise-btn ai-btn" id="choise-ai">A.I.</button>
+        </div>
       </div>
     </section>
     <section>
       <div class="gameboard invisible-gameboard" id="gameboard">
-        <div class="board-elements" data-id="[0],[0]" id="1"></div>
-        <div class="board-elements" data-id="[0],[1]" id="2"></div>
-        <div class="board-elements" data-id="[0],[2]" id="3"></div>
-        <div class="board-elements" data-id="[1],[0]" id="4"></div>
-        <div class="board-elements" data-id="[1],[1]" id="5"></div>
-        <div class="board-elements" data-id="[1],[2]" id="6"></div>
-        <div class="board-elements" data-id="[2],[0]" id="7"></div>
-        <div class="board-elements" data-id="[2],[1]" id="8"></div>
-        <div class="board-elements" data-id="[2],[2]" id="9"></div>
+        <div class="board-elements board-element-top" data-id="[0],[0]" id="1"></div>
+        <div class="board-elements board-element-top" data-id="[0],[1]" id="2"></div>
+        <div class="board-elements board-element-top-3" data-id="[0],[2]" id="3"></div>
+        <div class="board-elements board-element-middle" data-id="[1],[0]" id="4"></div>
+        <div class="board-elements board-element-middle" data-id="[1],[1]" id="5"></div>
+        <div class="board-elements board-element-middle-3" data-id="[1],[2]" id="6"></div>
+        <div class="board-elements board-element-bot" data-id="[2],[0]" id="7"></div>
+        <div class="board-elements board-element-bot" data-id="[2],[1]" id="8"></div>
+        <div class="board-elements board-element-bot-3" data-id="[2],[2]" id="9"></div>
+    </section>
+    <section>
+      <div class="winner-title-container winner-title-container-invisible" id="winner-container">
+        <p class="winner-announcer" id="draw">The Winner is</p>
+        <p class="winner" id="winner"></p>
+      </div>
     </section>
   </body>
 </html>

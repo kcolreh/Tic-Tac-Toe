@@ -81,6 +81,10 @@ const clearBoard = () => {
 };
 
 let checkDraw = () => {
+    const winnerContainer = document.getElementById('winner-container');
+    const draw = document.getElementById('draw');
+    const gameBoard = document.getElementById('gameboard');
+
     function reduceFunction(total, number) {
         const sum = total + number;
         return sum;
@@ -89,7 +93,9 @@ let checkDraw = () => {
     const row2Total = board[1].reduce(reduceFunction);
     const row3Total = board[2].reduce(reduceFunction);
     if (row1Total >= 4 && row2Total >= 4 && row3Total >= 4) {
-        console.log('its a draw');
+        draw.innerHTML = 'It\'s a draw!';
+        winnerContainer.classList.remove('winner-title-container-invisible');
+        gameBoard.classList.add('semi-invisible-gameboard');
         checkDraw = true;
         return checkDraw;
     }
@@ -97,12 +103,20 @@ let checkDraw = () => {
 };
 
 function checkWinner() {
+    const winnerContainer = document.getElementById('winner-container');
+    const winner = document.getElementById('winner');
+    const gameBoard = document.getElementById('gameboard');
+
     for (let row = 0; row < board.length; row += 1) {
         if (board[row][0] === board[row][1] && board[row][1] === board[row][2]) {
             if (board[row][0] === 1) {
-                console.log('x won');
+                winnerContainer.classList.remove('winner-title-container-invisible');
+                gameBoard.classList.add('semi-invisible-gameboard');
+                winner.innerHTML = 'X';
             } if (board[row][0] === 2) {
-                console.log('o won');
+                winnerContainer.classList.remove('winner-title-container-invisible');
+                gameBoard.classList.add('semi-invisible-gameboard');
+                winner.innerHTML = 'O';
             }
         }
     }
@@ -110,26 +124,38 @@ function checkWinner() {
     for (let column = 0; column < board.length; column += 1) {
         if (board[0][column] === board[1][column] && board[1][column] === board[2][column]) {
             if (board[0][column] === 1) {
-                console.log('x won');
+                winnerContainer.classList.remove('winner-title-container-invisible');
+                gameBoard.classList.add('semi-invisible-gameboard');
+                winner.innerHTML = 'X';
             } if (board[0][column] === 2) {
-                console.log('o won');
+                winnerContainer.classList.remove('winner-title-container-invisible');
+                gameBoard.classList.add('semi-invisible-gameboard');
+                winner.innerHTML = 'O';
             }
         }
     }
 
     if (board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
         if (board[0][0] === 1) {
-            console.log('x won');
+            winnerContainer.classList.remove('winner-title-container-invisible');
+            gameBoard.classList.add('semi-invisible-gameboard');
+            winner.innerHTML = 'X';
         } if (board[0][0] === 2) {
-            console.log('o won');
+            winnerContainer.classList.remove('winner-title-container-invisible');
+            gameBoard.classList.add('semi-invisible-gameboard');
+            winner.innerHTML = 'O';
         }
     }
 
     if (board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
         if (board[0][2] === 1) {
-            console.log('x won');
+            winnerContainer.classList.remove('winner-title-container-invisible');
+            gameBoard.classList.add('semi-invisible-gameboard');
+            winner.innerHTML = 'X';
         } if (board[0][2] === 2) {
-            console.log('o won');
+            winnerContainer.classList.remove('winner-title-container-invisible');
+            gameBoard.classList.add('semi-invisible-gameboard');
+            winner.innerHTML = 'O';
         }
     }
 }
